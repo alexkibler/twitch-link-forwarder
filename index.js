@@ -31,7 +31,7 @@ DiscordClient.login(process.env.DISCORD_AUTH_TOKEN);
 
 function discordLoginHandler() {
     console.log(`Logged in as ${DiscordClient.user.username}!`);
-    discordChannel = DiscordClient.channels.cache.find(i => i.name === process.env.DISCORD_CHANNEL_NAME && i.guild?.name === process.env.DISCORD_SERVER_NAME);
+    discordChannel = DiscordClient.channels.cache.find(i => i.name === process.env.DISCORD_CHANNEL_NAME && i.guild.name === process.env.DISCORD_SERVER_NAME);
     if (!discordChannel) {
         throw 'Channel not found!'
     }
