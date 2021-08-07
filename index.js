@@ -1,4 +1,4 @@
-require('dotenv').config({path: __dirname + '/.env'});
+require('dotenv').config({ path: __dirname + '/.env' });
 const tmi = require('tmi.js');
 const Discord = require('discord.js');
 const fs = require('fs');
@@ -31,35 +31,36 @@ client.connect();
 DiscordClient.login(process.env.DISCORD_AUTH_TOKEN);
 
 function discordLoginHandler() {
-    console.log(`Logged in as ${DiscordClient.user.username}!`);
-    discordChannel = DiscordClient.channels.cache.find(i => i.name === process.env.DISCORD_CHANNEL_NAME && i.guild.name === process.env.DISCORD_SERVER_NAME);
-    if (discordChannel) {
-      console.log('logged into discord.  Channel fetched')
-      discordBotReady = true;    
-    } else {
-      errorHandler('Channel ' + process.env.DISCORD_CHANNEL_NAME + ' not found in server ' + process.env.DISCORD_SERVER_NAME)
-      throw 'Channel not found!';      
-    }
+  console.log(`Logged in as ${DiscordClient.user.username}!`);
+  discordChannel = DiscordClient.channels.cache.find(i => i.name === process.env.DISCORD_CHANNEL_NAME && i.guild.name === process.env.DISCORD_SERVER_NAME);
+  if (discordChannel) {
+    console.log('logged into discord.  Channel fetched')
+    discordBotReady = true;
+  } else {
+    errorHandler('Channel ' + process.env.DISCORD_CHANNEL_NAME + ' not found in server ' + process.env.DISCORD_SERVER_NAME)
+    throw 'Channel not found!';
+  }
 }
 
 
-function onMessageHandler (target, context, msg, self) {
+function onMessageHandler(target, context, msg, self) {
   // Remove whitespace from chat message
   const message = msg.trim();
-
-  if (messageContainsLink(message)) {
-    const content = `${context.username}@${new Date().toLocaleString()}: ${message}\n`;
-    console.log(content);
-    if (discordBotReady) {
+  if (context.username !== 'streamelements') {
+    if (messageContainsLink(message)) {
+      const content = `${context.username}@${new Date().toLocaleString()}: ${message}\n`;
+      console.log(content);
+      if (discordBotReady) {
         discordChannel.send(content)
       }
       //log message to file (if file doesn't exist, create it)
-      fs.writeFile('links.txt', content, { flag: 'a+'}, errorHandler);
+      fs.writeFile('links.txt', content, { flag: 'a+' }, errorHandler);
+    }
   }
 }
 
 function errorHandler(errMsg) {
-  fs.writeFile('errors.txt', errMsg+'\n', {flag: 'a+'}, err => {});
+  fs.writeFile('errors.txt', errMsg + '\n', { flag: 'a+' }, err => { });
 }
 
 function messageContainsLink(message) {
