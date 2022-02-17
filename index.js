@@ -51,7 +51,7 @@ function onMessageHandler(target, context, msg, self) {
       const content = `${context.username}@${new Date().toLocaleString()}: ${message}\n`;
       console.log(content);
       if (discordBotReady) {
-        discordChannel.send(content)
+        // discordChannel.send(content)
       }
       //log message to file (if file doesn't exist, create it)
       fs.writeFile('links.txt', content, { flag: 'a+' }, errorHandler);
@@ -64,5 +64,5 @@ function errorHandler(errMsg) {
 }
 
 function messageContainsLink(message) {
-  return new RegExp("(([A-Za-z]{3,9})://)?([-;:&=\+\$,\w]+@{1})?(([-A-Za-z0-9]+\.)+[A-Za-z]{2,3})(:\d+)?(([-\+~%/\.\w]+)?/?([&?][-\+=&;%@\.\w]+)?(#[\w]+)?)?").test(message)
+  return new RegExp("(([A-Za-z]{3,9}):\/\/)?([-;:&=\+\$,\w]+@{1})?(([-A-Za-z0-9]+\.)+[A-Za-z]{2,3})(:\d+)?(([-\+~%/\.\w]+)?\/?([&?][-\+=&;%@\.\w]+)?(#[\w]+)?)?").test(message)
 }
